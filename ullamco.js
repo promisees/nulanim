@@ -1,29 +1,10 @@
-import { useReducer } from 'react';
-import { createContext, useState } from 'react';
+function reverseArgs(fn) {
+  return function(...args) {
+    return fn(...args.reverse());
+  };
+}
 
-const AnimationContext = createContext();
+const originalFunction = (a, b) => a + b;
+const reversedFunction = reverseArgs(originalFunction);
 
-const initialState = {
-  animationState: 'initial',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'start':
-      return { animationState: 'running' };
-    case 'stop':
-      return { animationState: 'paused' };
-    default:
-      return state;
-  }
-};
-
-const AnimationProvider = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  return (
-    <AnimationContext.Provider value={{ state, dispatch }}>
-      <YourComponent />
-    </AnimationContext.Provider>
-  );
-};
+console.log(reversedFunction(1, 2)); // 2 + 1 = 3
